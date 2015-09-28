@@ -1,7 +1,9 @@
 The JavaScript Encyclopedia
 
-This is an extremely incomplete encyclopedic presentation in HTML of the
+This is an extremely incomplete encyclopedic presentation of the
 JavaScript programming language as hypertext.
+
+These files are a prototype in HTML:
 
 encyclopedia.css    The encyclopedic style
 index.html          The Table of Contents
@@ -17,5 +19,20 @@ browser.html        The appendix on web browsers
 css.html            The appendix on Cascading Style Sheets
 es3.png             The ES3 flag
 
-The JavaScript Encyclopdia may be viewed at
+The JavaScript Encyclopdia prototype may be viewed at
 http://www.crockford.com/javascript/encyclopedia.
+
+The goal of this project is to produce a complete encyclopedia for the current
+language and any future versions that might appear. The encyclopedia will be
+developed in Cyc, a simple language that was inspired by Brian Reid's Scribe.
+Cyc is described in the prototype preface.
+
+cyc.js              A simple Cyc processor
+onehtml.js          Rules for outputing a single HTML file
+include.js          A simple @include preprocessor
+
+Since ES3 is obsolete and should be extinct by the time this processor is 
+finished, ES3 notices will be dropped in favor of ES5 notices.
+
+es5.png             The ES5 flag
+  

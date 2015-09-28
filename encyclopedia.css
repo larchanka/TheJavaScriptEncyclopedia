@@ -145,6 +145,14 @@ li p {
     padding-left: 0.5in;
 }
 
+.es5 {  /* ES5 warning */
+    background-image: url(es5.gif);
+    background-repeat: no-repeat;
+    font-size: 90%;
+    margin-left: -0.5in;
+    padding-left: 0.5in;
+}
+
 a {  /* link */
     font-family: Syntax, Helvetica, sans-serif;
     font-size: 100%;

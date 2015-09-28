@@ -22,11 +22,713 @@ I intended that <i><a href="index.html">The JavaScript Encyclopedia</a></i> be f
 released. Not only did I miss that deadline, but since then ES6 has been
 published, which was itself four years late. So it is starting to become clear that
 I am not going to get this done on my own. I need  help.
-</p><p>
-The unfinished material can be seen at
-<a href="http://www.crockford.com/javascript/encyclopedia">http://www.crockford.com/javascript/encyclopedia</a>.
-Contributions may be submitted at
-<a href="https://github.com/douglascrockford/TheJavaScriptEncyclopedia">https://github.com/douglascrockford/TheJavaScriptEncyclopedia</a>.
 </p>
+<p>
+The prototype material can be seen at
+<a href="http://www.crockford.com/javascript/encyclopedia">http://www.crockford.com/javascript/encyclopedia</a>.
+</p>
+<h2>Cyc</h2>
+<p>The most important thing I learned in doing the prototype was that HTML is a horrible language for writing hypertext. It is clumsy, fussy, ugly, and error-prone. So I designed Cyc, a simple language with only one reserved character. By writing in Cyc, we can use Cyc processors that can produce </p>
+<ul>
+    <li>a single HTML file</li>
+    <li> an HTML file for each chapter</li>
+    <li> an HTML file for each specimen</li>
+    <li>an HTML file for each article</li>
+    <li>a TEX manuscript</li>
+    <li>a PostScript manuscript</li>
+</ul>
+<p>A source is a set of enviroments that can contain other environments and content. The environments are</p>
+<code>
+<li> @book</li>
+<li> @chapter</li>
+<li> @appendix</li>
+<li> @specimen</li>
+<li> @article</li>
+<li> @section</li>
+<li> @program</li>
+<li> @es5</li>
+<li> @table</li>
+<li> @list</li>
+<li> @link</li>
+<li> @url</li>
+<li> @b</li>
+<li> @i</li>
+<li> @t</li>
+<li> @reserved@</li>
+<li> @aka</li>
+</code>
+<p>A book many contain one or more chapters. A chapter contains one or more specimens, which is can be a reserved word, name, concept, or special character. A specimen may contain one or more articles. An article many contain sections.</p>
+<p>Paragraphs are indicated with a blank line.</p>
+<p>A program is a JavaScript program that is illustrating or implementing a concept.</p>
+<p class=es5>Some paragraphs will be marked with an ES5 flag, indicating a new feature that is not availible with, or somehow incompatible with language processors that implement ECMAScript, Fifth Edition. With each new edition, we should remove all of the old flags, and then add new flags to highlight the latest incompatibilities.</p>
+<p>A table is a two dimensional grid structure. <code>@|</code> and <code>@_</code> are used to separate the cells and rows. <code>@!</code> is used inside of a cell to indicate a header.</p>
+<p>A list gives each paragraph a bullet.</p>
+<p>A link refers to another feature of the hypertext. A url identifies a feature outside of the hypertext.</p>
+<p>Text can be marked as bold or italics or typewriter-like. Programmers like their programs to look like they were written with typewriters because they love antiques and steam.</p>
+<p>Special marks show specimens that are reserved words. Descriptive marks can be placed after special characters and operators to give them names.</p>
+<p>There are 6 sets of bracketing characters. They are all available all of the time.</p>
+<code>
+<li>&quot; &quot;</li>
+<li>' '</li>
+<li>( )</li>
+<li>[ ]</li>
+<li>{ }</li>
+<li>&lt; &gt;</li>
+</code>
+<p>Example:</p>
+<pre>This sentence contains @b(bold), @i(italics), and @t(typewriter) stuff.</pre>
+<p>In addition, <code>@begin</code> and <code>@end</code> provide an alternate way of handling environments that can be easier for larger structures.</p>
+<pre>@begin[program]
+function foo() {
+    return '[';
+}
+@end[program]</pre>
+<p>This is  Cyc encoding of <a href="U.html">Chapter U</a>:</p>
+<pre>@chapter "U"
+
+@specimen "u"
+See @link &lt;Unicode escape sequence&gt;.
+
+@specimen "undefined"
+Blah.
+
+@article &lt;@t(undefined) @link 'literal'&gt;
+Blah.
+
+@specimen "Unicode"
+Blah.
+
+@article "Unicode escape sequence"
+Blah.
+
+@specimen "unshift"
+@article "@t(unshift) @link <Array prototype function>"
+Blah.
+
+@specimen "upper case"
+See @link &quot;case&quot;.
+
+@specimen "URIError"
+@article "@t(URIError) @link <global function>"
+Blah.
+
+@specimen "use"
+See @link{strict}.</pre>
+<p>This is Cyc encoding for the <a href="special.html">Chapter of Special Characters</a>:</p>
+<pre>@chapter "special"
+
+@specimen "! @aka (exclamation point)"
+
+@article "@t(!) @link &lt;prefix operator&gt; @aka(not)"
+The @t(!) @link &lt;prefix operator&gt; produces @link &lt;false&gt; if its @link&lt;operand&gt; is
+@link &lt;truthy&gt;, and @link &lt;true&gt; if its @link &lt;operand&gt; is @link &lt;falsy&gt;.
+
+@pgm {
+! true        // false
+! false       // true
+! 'false'     // false
+! 0           // true
+! 42          // false
+!! 42         // true
+}
+
+@article "@t(!=) @link &lt;infix operator&gt; @aka (coercing not equal)"
+The @t(!=) @link &lt;infix operator&gt; determines if two
+@link &lt;operand&gt;s are not equal. If the @link &lt;operand&gt;s have different types it may
+attempt to coerce the types of the @link &lt;operand&gt;s before comparing them. It
+produces the opposite of the @link &lt;== infix operator&gt;.
+
+The @t(!=) @link &lt;infix operator&gt; produces the same result as this function:
+
+@pgm {
+function coercing_not_equal(left, right) {
+    return !(left @link&lt;== infix operator&gt; right);
+}
+}
+
+Avoid this operator. Always use the &lt;a href="#bang== infix operator"&gt;@t(!==)
+infix operator&gt; instead.
+
+@article "@t(!==) @link &lt;infix operator&gt; @aka (not equal)"
+The @t(!==) @link &lt;infix operator&gt; determines if two
+  @link&lt;operand&gt;s are not equal. It produces the opposite of the
+  @link&lt;== infix operator"&gt;. The result is @link &lt;true&gt; only if the types of
+  the two @link&lt;operand&gt;s are the same.
+
+If the @link&lt;operand&gt;s are objects, the result is @link &lt;true&gt; only if the
+@link&lt;operand&gt;s are the same object. If the @link&lt;operand&gt;s are similar
+  objects, the result is @link &lt;false&gt;.
+
+The @t(!=) @link &lt;infix operator&gt; produces the same result as this function:
+@pgm {
+function not_equal(left, right) {
+    return !(left @link &lt;== infix operator&gt; right);
+}
+}
+
+The expression @t(x !== x) will always result in @link &lt;false&gt; except when the
+value of @t(x)is @link &lt;NaN&gt;. This bizarre behavior is intentional.
+
+@begin(pgm)
+false != 'false'             // true
+1 !== '1'                    // true
+null !== undefined           // true
+{} !== {}                    // true
+1 !== 1.0                    // false
+'cat' !== 'c' + 'a' + 't'    // false
+NaN !== NaN                  // true
+@begin(end)
+
+@specimen {" @aka (double quotation mark)}
+See @link &lt;string literal&gt;.
+
+@specimen "$ @aka (dollar sign)"
+@article "@t($) @link &lt;identifier character&gt;"
+The @t($) character is treated as a letter in an @link &lt;identifier&gt;.
+  It was added to the language specifically for the use of code generators
+  and macro processors so that they could generate identifiers with confidence
+  that they would not collide with  programs produced by humans. Unfortunately,
+  the developer
+  community ignored the intention of @t($) and used it to create
+  ugly, cryptic identifiers that collide with each other.
+@link &lt;ES5&gt; does not attempt to discourage the use of @t($).
+
+@specimen "% @aka (percent sign)"
+@article "@t(%) @link &lt;infix operator&gt; @aka (remainder)"
+The @t(%) @link &lt;infix operator&gt; computes the @link &lt;remainder&gt; produced by
+the @link &lt;division&gt; of two @link&lt;operand&gt;s, a @link &lt;dividend&gt; and a
+@link &lt;divisor&gt;. If the @link&lt;operand&gt;s are not numbers,
+  it attempts to coerce them to numbers. If either @link &lt;operand&gt; cannot be coerced to a
+  number or is @link &lt;NaN&gt;, or if the @link &lt;dividend&gt;
+  is an @link &lt;Infinity&gt;, or
+  if the @link &lt;divisor&gt; is a @link &lt;zero&gt;,
+  then the result is @link &lt;NaN&gt;. Otherwise, if
+  the @link &lt;divisor&gt; is an @link &lt;Infinity&gt;,
+  the result is the @link &lt;dividend&gt;.
+
+The @t(%) @link &lt;operator produces&gt; the same result as this function:
+
+@begin(pgm)
+function remainder(left, right) {
+    var dividend = left,
+        divisor = right,
+        quotient = dividend / divisor;
+    if (divisor === Infinity || divisor === -Infinity) {
+        return isFinite(dividend) ? dividend : NaN;
+    } else {
+        return dividend - (divisor * Math[quotient &gt;= 0
+            ? 'floor'
+            : 'ceil](quotient));
+    }
+}
+@end(pgm)
+
+The sign of the result will be the sign of the dividend, not
+  the divisor. This differs from the @link &lt;modulo&gt; @link &lt;infix operator&gt; found in some other
+  languages, where the result has the sign of the divisor. The modulo function
+  can be computed with the following function, which adds the
+  divisor to the remainder if the remainder has the wrong sign:
+
+@begin(pgm)
+function modulo(left, right) {
+    var dividend = &lt;a href="#plus prefix operator"&gt;+&gt;left,
+        divisor = &lt;a href="#plus prefix operator"&gt;+&gt;right,
+        mod = dividend % divisor;
+    if (mod && (divisor &gt; 0) === (mod &lt; 0)) {
+        mod += divisor;
+    }
+    return mod;
+}
+@end(pgm)
+
+Examples:
+
+@pgm {
+ 15 %  4            //  3
+-15 %  4            // -3
+-15 % -4            // -3
+ 15 % -4            //  3
+ 15 %  0            // NaN
+ 15 % -Infinity     // 15
+  0 %  Infinity     //  0
+  0 %  0            // NaN
+Infinity % 4        // NaN
+Infinity % Infinity // NaN
+}
+
+@article "@t(%=) @link &lt;assignment infix operator&gt; @aka (remainder)"
+The @t(%=) operator replaces the left value with the remainder
+  of the left value divided by the right value. So
+
+@pgm {left %= divisor;}
+
+ is a streamlined equivalent of
+
+@pgm {left = left % divisor;}
+
+@specimen "@t(&) @aka (ampersand)"
+@article "& @link &lt;infix operator&gt; @aka (bitwise and)"
+The @t(&) infix operator performs the bitwise &lt;var&gt;and&lt;/var&gt; operation. The &lt;var&gt;and&lt;/var&gt; operation uses 32 bits from each @link&lt;operand&gt;. If two corresponding bits are 1, then the corresponding result bit is 1. Otherwise, the corresponding result bit is 0. The @link&lt;operand&gt;s are converted from a number (64 bit floating point) to a 32-bit &lt;a href="I.html#integer"&gt;integer&gt;. It produces the same result as this function:
+@pgm {
+function bitwise_and(left, right) {
+    var result = 0, bit, i, left_int, right_int,
+        two_32 = 4294967296,    // Math.pow(2, 32)
+        two_31 = 2147483648;    // Math.pow(2, 31)
+
+// Make 32-bit unsigned integers from the @link&lt;operand&gt;s. The % is a remainder
+// operator, not a modulo operator, so some sign correction may be necessary.
+
+    left_int = Math[left &gt;= 0 ? 'floor' : 'ceil'](left) % two_32;
+    if (left_int &lt; 0) {
+        left_int += two_32;
+    }
+    right_int = Math[right &gt;= 0 ? 'floor' : 'ceil'](right) % two_32;
+    if (right_int &lt; 0) {
+        right_int += two_32;
+    }
+
+// For each of the 32 bits,
+//      Double the current result
+//      Set the new bit to 1
+//      If the most significant bits are set, then subtract them out
+//      Otherwise clear the new bit
+//      Add the new bit to the result
+//      Double the ints, rotating the next most significant bit into position
+
+    for (i = 0; i &lt; 32; i += 1) {
+        result += result;
+        bit = 1;
+        if (left_int &gt;= two_31) {
+            left_int -= two_31;
+        } else {
+            bit = 0;
+        }
+        if (right_int &gt;= two_31) {
+            right_int -= two_31;
+        } else {
+            bit = 0;
+        }
+        result += bit;
+        left_int += left_int;
+        right_int += right_int;
+    }
+
+// If the most significant bit of the result is set, then produce a negative.
+
+    if (result &gt;= two_31) {
+        result -= two_32;
+    }
+    return result;
+}}
+@article "@t(&&) @link &lt;infix operator&gt; @aka (and)"
+Blah.
+@article "@t(&=) @link &lt;assignment infix operator&gt; @aka (bitwise and)"
+Blah.
+@specimen "@t(') @aka (single quotation mark)"
+@article "@t(') @aka (string delimiter)"
+See @link &lt;string literal&gt;.
+@specimen "@t'(' @aka (left parenthesis)"
+Parentheses have many uses. In @link&lt;operand&gt; position, they provide
+  grouping for overriding &lt;a href="O.html#operator precedence"&gt;operator precedence&gt; or to make the meaning
+  of complicated expressions clearer. In suffix position, they cause the invocation of
+  functions. In function definitions and &lt;a href="C.html#catch"&gt;@t(catch)&gt; blocks they define parameters
+  and exception variables. In statement position, they can disambiguate &lt;a href="F.html#function literal"&gt;function literal&gt; from &lt;a href="R.html#regexp"&gt;function statement&gt;. In a &lt;a href="S.html#statement"&gt;statement&gt; they denote a conditional expression or a special variable.
+@article "@t'()' grouping"
+In expressions, parentheses can be used to override the precedence
+  of operators, or to break up complicated expressions to make them easier
+  to read.
+@pgm {
+3 + 4 * 5      // 23
+3 + (4 * 5)    // 23
+(3 + 4) * 5    // 35
+}
+Parentheses can also be used to improve the readability of an &lt;a href="I.html#immediate function"&gt;immediate function&gt;.
+@article "() parameter list"&gt;@t(() @t()) parameter list"
+See &lt;a href="F.html#function"&gt;function&gt;.
+@article "() statement punctuator"&gt;@t(() @t()) statement punctuator"
+Parentheses are used in statements. See
+@list {
+  @link "do statement"
+
+  @link "if statement"
+
+  @link "for in statement"
+
+  @link "for statement"
+
+  @link "function statement"
+
+  @link "switch statement"
+
+  @link "try statement"
+
+  @link "while statement"
+
+  @link "with statement"
+}
+@article "@t'()' @link &lt;suffix operator&gt; @aka (invoke)"
+Blah.
+@specimen "@t')' @aka (right parenthesis)"
+See @link &lt;@t'(' @aka (left parenthesis)&gt;.
+@specimen "*"&gt;@t(*) @aka (asterisk)"
+@article "* infix operator"&gt;@t(*) @link &lt;infix operator&gt; @aka (multiply)"
+The @t(*) operator &lt;var&gt;multiplies&lt;/var&gt; its @link&lt;operand&gt;s together. If the
+  @link&lt;operand&gt;s are not numbers, it attempts to coerce them to numbers. If either
+  @link&lt;operand&gt; cannot be coerced to a number or is @link &lt;NaN&gt;,
+  then the result will be @link &lt;NaN&gt;.
+@pgm {3 * 4    // 7}
+&lt;h3&gt;@t(*/) @aka (Close comment)"
+See &lt;a href="#slash*"&gt;@t(/*)&gt;.
+@article "*= assignment infix operator"&gt;@t(*=) @link &lt;assignment infix operator&gt;"
+Blah.
+@specimen "+"&gt;@t(+) @aka (plus sign)"
+@article "+ infix operator"&gt;@t(+) @link &lt;infix operator&gt; @aka (add or concatenate)"
+The @t(+) operator can either &lt;var&gt;add&lt;/var&gt; or &lt;var&gt;concatenate&lt;/var&gt;, depending of the types of its @link&lt;operand&gt;s.
+  If either @link&lt;operand&gt; is a string, then it converts both @link&lt;operand&gt;s to strings and concatenates then,
+  producing a new string with all of the characters from both @link&lt;operand&gt;s. Otherwise,
+  it converts both @link&lt;operand&gt;s to numbers and then attempts to add them.
+  It produces the same result as this function:
+@pgm {
+function add_or_concatenate(left, right) {
+    if (left && typeof left === 'object') {
+        left = left.valueOf();
+    }
+    if (right && typeof right === 'object') {
+        right = right.valueOf();
+    }
+    if (typeof left === 'string' || typeof right === 'string') {
+        return String(left).concat(String(right));
+    }
+    return +left + (+right);    // return the sum of left + right
+}}
+The @t(+) operator is the only &lt;a href="A.html#arithmetic operator"&gt;arithmetic
+  operator&gt; with this type confusion.
+Examples:
+@pgm {
+1 + 0                  // 1
+1 + 1                  // 2
+1 + (-1)               // 0
+1 + ''                 // '1'
+1 + undefined          // NaN
+1 + null               // 1
+1 + false              // 1
+1 + true               // 2
+1 + NaN                // NaN
+1 + Infinity           // Infinity
+true + true            // 2
+true + false           // 1
+true + '!'             // 'true!'
+Infinity + (-1)        // Infinity
+Infinity + Infinity    // Infinity
+'' + ''                // ''
+'1' + "1"              // '11'
+'1' + 0                // '10'
+'1' + ''               // '1'
+'1' + undefined        // '1undefined'
+'1' + null             // '1null'
+'1' + NaN              // '1NaN'
+'1' + Infinity         // '1Infinity'
+'1' + true             // '1true'
+'$' + 3 + 4            // '$34'
+'$' + (3 + 4)          // '$7'
+}
+&lt;h3&gt;@t(+) @link &lt;prefix operator&gt; @aka (to number)"
+Blah.
+@article "++ assignment prefix operator"&gt;@t(++) @link &lt;assignment prefix operator&gt; @aka (pre-increment)"
+Blah.
+@article "++ assignment suffix operator"&gt;@t(++) &lt;a href="S.html#suffix operator"&gt;assignment suffix operator&gt; @aka (post-increment)"
+Blah.
+&lt;h3&gt;@t(+=) @link &lt;assignment infix operator&gt; @aka (add or concatenate)"
+Blah.
+@specimen ","&gt;@t(,) @aka (comma)"
+&lt;h3&gt;@t(,) @link &lt;infix operator&gt;"
+The @t(,) @link &lt;infix operator&gt; takes two @link&lt;operand&gt;s, evalutes them both, and returns the value of the second @link&lt;operand&gt;. This operator may not be used in places where a comma can appear, such as in an &lt;a href="A.html#argument list"&gt;argument list&gt;, in a &lt;a href="V.html#var statement"&gt;@t(var) statement&gt;, or in an &lt;a href="O.html#object literal"&gt;object literal&gt; or &lt;a href="A.html#array literal"&gt;array literal&gt; unless the  @link&lt;operand&gt; it forms is wrapped in &lt;a href="G.html#grouping parentheses"&gt;grouping parentheses&gt;. This operator is marginally useful in the &lt;a href="F.html#for statement"&gt;@t(for) statement&gt; when initializing or incrementing multiple  variables.
+&lt;h3&gt;@t(,) separator"
+The comma is used to separate @link&lt;operand&gt;s in the &lt;a href="O.html#object literal"&gt;object literal&gt;, the &lt;a href="A.html#array literal"&gt;array literal&gt;,
+  the &lt;a href="A.html#argument list"&gt;argument list&gt;. The comma is used to separate identifiers in the the &lt;a href="P.html#parameter list"&gt;parameter list&gt; and the &lt;a href="V.html#var statement"&gt;@t(var) statement&gt;.
+@specimen "-"&gt;@t(-) @aka (minus)"
+@article "- infix operator"&gt;@t(-) @link &lt;infix operator&gt; @aka (subtract)"
+Blah.
+@article "- prefix operator"&gt;@t(-) @link &lt;prefix operator&gt; @aka (negate)"
+Blah.
+@article "-- assignment prefix operator"&gt;@t(--) &lt;a href="P.html#assignment prefix operator"&gt;assignment prefix operator&gt; @aka (pre-decrement)"
+Blah.
+@article "-- assignment suffix operator"&gt;@t(--) &lt;a href="S.html#assignment suffix operator"&gt;assignment suffix operator&gt; @aka (post-decrement)"
+Blah.
+@article "-= assignment infix operator"&gt;@t(-=) @link &lt;assignment infix operator&gt; @aka (subtract)"
+Blah.
+@specimen ". decimal point"&gt;@t(.) @aka (decimal point)"
+Blah.
+@article ". suffix operator"&gt;@t(.) &lt;a href="S.html#suffix operator"&gt;suffix operator&gt; @aka (select)"
+Blah.
+@specimen "/"&gt;@t(/) @aka (slash)"
+The @t(/) @aka (slash) character is also known as the solidus and as the virgule.
+  It is used as the division operator, and it is used to form comments and regexp literals. Be careful to not confuse it with &lt;a href="#backslash"&gt;@t(\)&gt; @aka (backslash).
+@article "/ infix operator"&gt;@t(/) @link &lt;infix operator&gt; @aka (divide)"
+Blah.
+@article "/ regexp delimiter"&gt;@t(/) regexp delimiter"
+Blah.
+@article "/*"&gt;@t(/*) &lt;a href="C.html#comment"&gt;comment&gt; @t(*/)"
+Blah.
+@article "//"&gt;@t(//) &lt;a href="C.html#comment"&gt;comment&gt;"
+Blah.
+@article "/= assignment infix operator"&gt;@t(/=) @link &lt;assignment infix operator&gt; @aka (divide)"
+Blah.
+@specimen ":"&gt;@t(:) @aka (colon)"
+@article ": pair separator"&gt;@t(:) pair separator"
+See &lt;a href="O.html#object literal"&gt;object literal&gt;.
+@article ": label"&gt;@t(:) &lt;a href="L.html#label"&gt;label&gt;"
+See &lt;a href="L.html#label"&gt;label&gt;.
+&lt;h3&gt;@t(:) &lt;a href="S.html#switch statement"&gt;@t(switch) statement&gt; @aka (case terminator)"
+See &lt;a href="S.html#switch statement"&gt;@t(switch) statement&gt;.
+&lt;h3&gt;@t(:) &lt;a href="T.html#ternary operator"&gt;ternary operator&gt;"
+See &lt;a href="#question ternary operator"&gt;@t(?) ternary operator&gt;.
+@specimen ";"&gt;@t(;) @aka (semicolon)"
+The @t(;) is used to terminate  a &lt;a href="S.html#statement"&gt;statement&gt;. It is required on these statements:
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="B.html#break statement"&gt;@t(break) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="C.html#continue statement"&gt;@t(continue) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="D.html#debugger statement"&gt;@t(debugger) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="D.html#do statement"&gt;@t(do) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="E.html#empty statement"&gt;empty statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="E.html#expression statement"&gt;expression statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="R.html#return statement"&gt;@t(return) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="T.html#throw statement"&gt;@t(throw) statement&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="V.html#var statement"&gt;@t(var) statement&gt;&lt;/li&gt;
+&lt;/ul&gt;
+In some cases a mechanism called &lt;a href="S.html#semicolon insertion"&gt;semicolon insertion&gt; allows for
+  leaving off the terminating semicolon. Unfortunately, &lt;a href="S.html#semicolon insertion"&gt;semicolon insertion&gt; has
+  some inherent problems and should not be relied upon.
+Semicolon is also used to separate the control clauses in a &lt;a href="F.html#for statement"&gt;@t(for) statement&gt;.
+@specimen "&lt;"&gt;@t(&lt;) @aka (left angle bracket)"
+@article "&lt; infix operator"&gt;@t(&lt;) @link &lt;infix operator&gt; @aka (less than)"
+Blah.
+@article "&lt;&lt; infix operator"&gt;@t(&lt;&lt;) @link &lt;infix
+  operator&gt; @aka (bitwise shift left)"
+Blah.
+@article "&lt;&lt;= assignment infix operator"&gt;@t(&lt;&lt;=) @link &lt;assignment infix operator&gt; @aka (bitwise shift left)"
+Blah.
+@article "&lt;"&gt;@t(&lt;=) @link &lt;infix operator&gt; @aka (less than or equal)"
+@article "&lt;"&gt;&nbsp;"
+@specimen "="&gt;&lt;code&gt;=) @aka (equal sign)"
+@article "= assignment infix operator"&gt;&lt;code&gt;=) @link &lt;assignment infix operator&gt;"
+Blah.
+@article "== infix operator"&gt;&lt;code&gt;==) @link &lt;infix operator&gt; @aka (coercing equal)"
+The &lt;code&gt;==) operator determines if two
+  @link&lt;operand&gt;s are equal. If the @link&lt;operand&gt;s have different types it may
+  attempt to coerce the types of the @link&lt;operand&gt;s before comparing them. It
+  produces the opposite of the &lt;a href="#bang= infix operator"&gt;@t(!=) infix operator&gt;.
+The &lt;code&gt;==) operator produces the same result as this function:
+@pgm {
+function coercing_equal(left, right) {
+    if (left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; right) {
+        return true;
+    }
+    if (left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; null) {
+        return right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; undefined;
+    }
+    if (right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; null) {
+        return left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; undefined;
+    }
+    if (typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'number' && typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'string') {
+        return left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; +right;
+    }
+    if (typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'string' && typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'number') {
+        return +left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; right;
+    }
+    if (typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'boolean') {
+        return coercing_equal(+left, right);
+    }
+    if (typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'boolean') {
+        return coercing_equal(left, +right);
+    }
+    if (typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'object' &&
+            (left.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; Number || left.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; String ||
+                left.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; Boolean) &&
+            (typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'string' || typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'number')) {
+        return coercing_equal(left.valueOf(), right);
+    }
+    if ((typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'string' || typeof left @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'number') &&
+            typeof right @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; 'object' &&
+            (right.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; Number || right.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; String ||
+                right.constructor @link&lt;== infix operator"&gt;&lt;code&gt;===)&gt; Boolean)) {
+        return coercing_equal(left, right.valueOf());
+    }
+    return false;
+}}
+Avoid this operator. Always use the @link&lt;== infix operator"&gt;&lt;code&gt;===) infix operator&gt; instead.
+Examples:
+@pgm {
+'' == 0                  // false
+0 == ''                  // true
+0 == '0'                 // true
+false == 'false'         // false
+false == 0               // true
+false == undefined       // false
+false == null            // false
+null == undefined        // true
+' \t\r\n ' == 0          // true
+'cat' === "cat"          // true
+'cat' === 'CAT'          // false
+Infinity == Infinity     // true
+-Infinity == Infinity    // false
+Infinity == NaN          // false
+NaN == NaN               // false
+}
+@article "=== infix operator"&gt;&lt;code&gt;===) @link &lt;infix operator&gt; @aka (equal)"
+The &lt;code&gt;===) operator compares two values, producing @link((true)&gt; if they are
+  equal and @link &lt;false&gt; if they are not. Two strings
+  are considered equal if they have the same &lt;a href="L.html#length"&gt;@t(length)&gt; and contain exactly the same code points in the same sequence.
+  To references to the same object or array are considered equal. Two similar objects or two similar arrays are not considered equal.
+The expression@t( x === x )will always result in @link((true)&gt; except when the value of@t( x )is @link &lt;NaN&gt;.
+  Surprisingly, there exist mathematicians that think this was a good idea. It presents
+  an obvious programming hazard. For example, suppose you need a function that tests that a function
+  returns the correct value. Special hanling is required for the case where the expected value is @link &lt;NaN&gt;&lt;a href="N."&gt;&gt;. Simply using &lt;code&gt;===) to compare the expected value and the result will
+  do the wrong thing when the expected value is @link &lt;NaN&gt;, so
+  much more complicated comparisons are required using the &lt;a href="T.html#typeof prefix operator"&gt;@t(typeof) prefix operator&gt; and the &lt;a href="I.html#isNaN global function"&gt;@t(isNaN) global function&gt;.
+  (The &lt;a href="I.html#isNaN global function"&gt;@t(isNaN) global function&gt; can produce incorrect results when its argument is a string.)
+Two numbers that are only approximately equal may produce a @link &lt;false&gt; result.
+
+Examples:
+@pgm {
+'' === 0                  // false
+0 === ''                  // false
+0 === '0'                 // false
+false === 'false'         // false
+false === 0               // false
+false === undefined       // false
+false === null            // false
+null === undefined        // false
+' \t\r\n ' === 0          // false
+Infinity === Infinity     // true
+-Infinity === Infinity    // false
+Infinity === NaN          // false
+NaN === NaN               // false
+0 === 0.00                // true
+0 === -0                  // true
+{} === {}                 // false
+[] === []                 // false
+0.1 + 0.2 === 0.3         // false}
+@specimen "&gt;"&gt;@t(&gt;) @aka (right angle bracket)"
+@article "&gt; infix operator"&gt;@t(&gt;) @link &lt;infix operator&gt; @aka (greater than)"
+Blah.
+@article "&gt;"&gt;@t(&gt;=) @link &lt;infix operator&gt; @aka (greater than or equal)"
+Blah.
+@article "&gt; infix operator"&gt;@t(&gt;&gt;) @link &lt;infix operator&gt; @aka (bitwise signed shift right)"
+Blah.
+@article "&gt;"&gt;@t(&gt;&gt;=) @link &lt;assignment infix operator&gt; @aka (bitwise signed shift right)"
+Blah.
+@article "&gt;"&gt;@t(&gt;&gt;&gt;) @link &lt;infix operator&gt; @aka (bitwise unsigned
+  shift right)"
+Blah.
+@article "&gt;"&gt;@t(&gt;&gt;&gt;=) @link &lt;assignment infix operator&gt; @aka (bitwise unsigned
+  shift right)"
+Blah.
+@specimen "?"&gt;@t(?) @aka (question mark)"
+@article "? ternary operator"&gt;@t(?) ternary operator @aka (conditional)"
+The @t(?) operator takes three @link&lt;operand&gt;s which are separated by the @t(?) and a @t(:).
+&lt;blockquote&gt;
+  &lt;var&gt;condition&lt;/var&gt;@t( ? )&lt;var&gt;then&lt;/var&gt;@t( : )&lt;var&gt;else&lt;/var&gt;
+&lt;/blockquote&gt;
+It is a short-circuiting operator in that either the &lt;var&gt;then&lt;/var&gt; @link&lt;operand&gt; or the &lt;var&gt;else&lt;/var&gt; @link&lt;operand&gt; will not be evaluated. If the &lt;var&gt;condition&lt;/var&gt; @link&lt;operand&gt; is @link &lt;truthy&gt; then the &lt;var&gt;then&lt;/var&gt; @link&lt;operand&gt; will be evaluated and its value will be the value of the expression. If the &lt;var&gt;condition&lt;/var&gt; @link&lt;operand&gt; is @link &lt;falsy&gt; then the &lt;var&gt;else&lt;/var&gt; @link&lt;operand&gt; will be evaluated and its value will be the value of the expression.
+@pgm {function signum(number) {
+
+// Return 0 if the number is zero,
+//        1 if the number is positive,
+//       -1 if the number is negative.
+
+    return number === 0 ? 0 : number &gt; 0 ? 1 : -1;
+}}
+@specimen "["&gt;@t([) @aka (left bracket)"
+@article "[ ] array literal"&gt;@t([ ]) array literal"
+See &lt;a href="A.html#array literal"&gt;array literal&gt;.
+@article "[ ] suffix operator"&gt;@t([ ]) &lt;a href="S.html#suffix operator"&gt;suffix operator&gt; @aka (subscript)"
+Blah.
+@specimen "\"&gt;@t(\) @aka (backslash)"
+@article "\ identifier escapement"&gt;@t(\) @aka (identifier escapement)"
+Blah.
+@article "\ string escapement"&gt;@t(\) @aka (string escapement)"
+Blah.
+&lt;h2&gt;&lt;a href="#rightbracket"&gt;@t(]) @aka (right bracket)&gt;"
+See &lt;a href="#leftbracket"&gt;@t([) @aka (left bracket)&gt;.
+@specimen "^"&gt;@t(^)@aka (caret)"
+@article "^ infix operator"&gt;@t(^) @link &lt;infix operator&gt; @aka (bitwise exclusive or)"
+Blah.
+@article "^= assignment infix operator"&gt;@t(^=) @link &lt;assignment infix operator&gt; @aka (bitwise exclusive or)"
+Blah.
+@specimen "_"&gt;@t(_)  @aka (underbar)"
+In a name, the @t(_) @aka (underbar) character is treated as a letter. The @t(_) @aka (underbar) is used to improve the readability of names, especially when the name contains several words, which as
+@pgm {calculate_the_total}
+since a name cannot contain a space or hyphen. Another convention is to use camelCase:
+@pgm {calculateTheTotal}
+Some implementations use leading or trailing @t(_) @aka (underbar) for internal or dangerous properties, so it is best to avoid such names.
+@specimen "{"&gt;@t({) @aka (left curly brace)"
+&lt;h3&gt;@t({) @t(}) block statement"
+See &lt;a href="S.html#statement"&gt;block&gt;.
+&lt;h3&gt;@t({) @t(}) function body"
+See &lt;a href="F.html#function"&gt;function&gt;.
+&lt;h3&gt;@t({) @t(}) object literal"
+See &lt;a href="O.html#object literal"&gt;object literal&gt;.
+@specimen "|"&gt;@t(|) @aka (vertical bar)"
+@article "| infix operator"&gt;@t(|) @link &lt;infix operator&gt; @aka (bitwise or)"
+The @t(|) operator performs the bitwise &lt;var&gt;or&lt;/var&gt; operation. The &lt;var&gt;or&lt;/var&gt; operation uses 32 bits from each @link&lt;operand&gt;. If two corresponding bits are 0, then the corresponding result bit is 0. Otherwise, the corresponding result bit is 1. The @link&lt;operand&gt;s are converted from a number (64 bit floating point) to a 32-bit &lt;a href="I.html#integer"&gt;integer&gt;.
+@pgm {
+function bitwise_or(left, right) {
+    var result = 0, bit, i, left_int, right_int,
+        two_32 = Math.pow(2, 32),    // 4294967296
+        two_31 = Math.pow(2, 31);    // 2147483648
+
+// Make 32-bit unsigned integers from the @link&lt;operand&gt;s. The % is a remainder
+// operator, not a modulo operator, so some sign correction may be necessary.
+
+    left_int = Math[left &gt;= 0 ? 'floor' : 'ceil'](left) % two_32;
+    if (left_int &lt; 0) {
+        left_int += two_32;
+    }
+    right_int = Math[right &gt;= 0 ? 'floor' : 'ceil'](right) % two_32;
+    if (right_int &lt; 0) {
+        right_int += two_32;
+    }
+
+// For each of the 32 bits,
+//      Double the current result
+//      Set the new bit to 0
+//      If the most significant bits are set, then subtract out the bits out
+//          and set the new bit
+//      Add the new bit to the result
+//      Double the ints, rotating the next most significant bit into position
+
+    for (i = 0; i &lt; 32; i += 1) {
+        result += result;
+        bit = 0;
+        if (left_int &gt;= two_31) {
+            left_int -= two_31;
+            bit = 1;
+        }
+        if (right_int &gt;= two_31) {
+            right_int -= two_31;
+            bit = 1;
+        }
+        result += bit;
+        left_int += left_int;
+        right_int += right_int;
+    }
+
+// If the most significant bit of the result is set, then produce a negative.
+
+    if (result &gt;= two_31) {
+        result -= two_32;
+    }
+    return result;
+}}
+@article "| assignment infix operator"&gt;@t(|=) @link &lt;assignment infix operator&gt; @aka (bitwise or)"
+Blah.
+@article "|| infix operator"&gt;@t(||) @link &lt;infix operator&gt; @aka (or)"
+Blah.
+@specimen "}"&gt;@t(}) @aka (right curly brace)"
+See &lt;a href="#leftbrace"&gt;@t({) @aka (left curly brace)&gt;.
+@specimen "~"&gt;@t(~) @aka (tilde)"
+@article "~ prefix operator"&gt;@t(~) @link &lt;prefix operator&gt; @aka (bitwise not)"</pre>
+<p>Contributions may be submitted at <a href="https://github.com/douglascrockford/TheJavaScriptEncyclopedia">https://github.com/douglascrockford/TheJavaScriptEncyclopedia</a>. </p>
 </body>
 </html>
