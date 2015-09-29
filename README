@@ -1,7 +1,8 @@
 The JavaScript Encyclopedia
 
-This is an extremely incomplete encyclopedic presentation of the
-JavaScript programming language as hypertext.
+This project is developing The JavaScript Encyclopedia.
+
+PUBLIC DOMAIN
 
 These files are a prototype in HTML:
 
@@ -31,8 +32,7 @@ cyc.js              A simple Cyc processor
 onehtml.js          Rules for outputing a single HTML file
 include.js          A simple @include preprocessor
 
-Since ES3 is obsolete and should be extinct by the time this processor is 
+Since ES3 is obsolete and should be extinct by the time this processor is
 finished, ES3 notices will be dropped in favor of ES5 notices.
 
 es5.png             The ES5 flag
-  
